@@ -12,6 +12,7 @@ import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.upstream.HttpDataSource;
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
 import com.google.android.exoplayer2.util.Util;
 
 import okhttp3.Cookie;
@@ -73,6 +74,7 @@ public class DataSourceUtil {
     }
 
     private static HttpDataSource.Factory buildHttpDataSourceFactory(ReactContext context, DefaultBandwidthMeter bandwidthMeter, Map<String, String> requestHeaders) {
+        /*
         OkHttpClient client = OkHttpClientProvider.getOkHttpClient();
         CookieJarContainer container = (CookieJarContainer) client.cookieJar();
         ForwardingCookieHandler handler = new ForwardingCookieHandler(context);
@@ -83,5 +85,13 @@ public class DataSourceUtil {
             okHttpDataSourceFactory.getDefaultRequestProperties().set(requestHeaders);
 
         return okHttpDataSourceFactory;
+        */
+
+        DefaultHttpDataSourceFactory httpDataSourceFactory = new DefaultHttpDataSourceFactory(getUserAgent(context), bandwidthMeter);
+
+        if (requestHeaders != null)
+            httpDataSourceFactory.getDefaultRequestProperties().set(requestHeaders);
+
+        return httpDataSourceFactory;
     }
 }
